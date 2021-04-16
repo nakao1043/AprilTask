@@ -40,9 +40,18 @@ function App() {
     setNotes(notes);
   }
 
-  async function updateNote({ id }) {
-    await API.graphql({ query: updateNoteMutation, variables: { input:  { id }  } });
-    setFormData(initialFormState);
+  function changeNoteDescription(noteId, newDsc){
+    notes.forEach(note => {
+      if(note === noteId){
+        note.description = newDsc;
+      } 
+    });
+    setNotes(notes);
+  }
+
+  async function updateNote(note) {
+    await API.graphql({ query: updateNoteMutation, variables: { input:  note }});
+    setNotes(notes);
   }
 
   async function deleteNote({ id }) {
@@ -75,9 +84,11 @@ function App() {
                 defaultValue={note.name}
               />
               <input
+                onChange = {e => changeNoteDescription(note, e.target.value)}
                 defaultValue={note.description}
               />
               <br/>
+              {/* <p>{note.description}</p> */}
               <button onClick={() => updateNote(note)}>Update note</button>
               <button onClick={() => deleteNote(note)}>Delete note</button>
             </div>
