@@ -50,7 +50,7 @@ function App() {
   }
 
   async function updateNote(note) {
-    await API.graphql({ query: updateNoteMutation, variables: { input:  note }});
+    await API.graphql({ query: updateNoteMutation, variables: { input: {id:note.id, name: note.name, description: note.description}  }});
     setNotes(notes);
   }
 
